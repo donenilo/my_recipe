@@ -1,14 +1,18 @@
-# my_recipe
-Interim 1 for Application Development
+## Interim 1 for Application Development
 
-Group Members:
+## Group Members:
+- Añoso, Sarah Nicole
+- Borbon, Sherrie
+- Buenaventura, Danilo
+- Clamar, Youone Christian
+- Manalo, Paulo Anriv
 
-Añoso, Sarah Nicole
-
-Borbon, Sherrie
-
-Buenaventura, Danilo
-
-Clamar, Youone Christian
-
-Manalo, Paolo Anriv
+## 04/08/2026
+- React + Vite
+- Redux store + RTK Query
+- Both API endpoints configured
+- Home page with recipe list
+- Search bar with filtering
+- Pagination (8 items per page)
+- React Router setup
+- Placeholder detail page
