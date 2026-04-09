@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import HomePage from './pages/HomePage.jsx'; 
+import DetailPage from './pages/DetailPage.jsx';
 import "./pages/HomePage.css";
 
 function App() {
@@ -11,11 +12,10 @@ function App() {
           <Link to="/">Home</Link> | <a href="#featured">Featured</a>
         </nav>
       </header>
-
+      
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/meal/:id" element={<div>Detail Page</div>} />
-        {/* !!!  MEMBER 4 ADD NA LANG U HERE FOR ROUTING !!! -nics */}
+        <Route path="/meal/:id" element={<DetailPage />} />
       </Routes>
     </Router>
   );
