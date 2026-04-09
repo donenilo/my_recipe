@@ -73,7 +73,7 @@ const HomePage = () => {
         <section className="featured-section" id="featured">
           <div className="section-header">
             <h2>Featured Recipes</h2>
-            <p>Check out our handpicked selection</p>
+            {/* <p>Check out our handpicked selection</p> */}
           </div>
           <div className="featured-grid">
             {featuredMeals.map((meal) => (
