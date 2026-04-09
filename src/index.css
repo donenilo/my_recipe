@@ -168,19 +168,19 @@ body {
 /* ===== DETAIL PAGE ===== */
 .detail-page {
   min-height: 60vh;
-  display: flex;
+  /* display: flex; */
   align-items: center;
   justify-content: center;
   background: white;
   border-radius: 15px;
-  margin: 40px 0;
+  /* margin: 40px 0; */
   font-size: 1.2rem;
   color: #666;
 }
 
 /* ===== FOOTER ===== */
 .footer {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0066cc 0%, #00a8b5 100%);
   color: white;
   text-align: center;
   padding: 30px 40px;

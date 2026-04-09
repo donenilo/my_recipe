@@ -32,7 +32,7 @@ function App() {
 
         <footer className="footer">
           <div className="footer-content">
-            <p>&copy; 2024 RecipeHub. All rights reserved.</p>
+            <p>&copy; 2026 RecipeHub. All rights reserved.</p>
           </div>
         </footer>
       </div>
