@@ -3,30 +3,33 @@ import { useGetSeafoodListQuery } from "../store/apiSlice";
 import { useNavigate } from "react-router-dom";
 import "./HomePage.css";
 
-const ITEMS_PER_PAGE = 8;
+const ITEMS_PER_PAGE = 12;
 
 const HomePage = () => {
   const { data, isLoading, isError } = useGetSeafoodListQuery();
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState(""); 
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  if (isLoading) return (
-    <div className="status-container">
-      <p>Loading your favorite and delicious seafood recipes...</p>
-    </div>
-  );
-  
-  if (isError) return (
-    <div className="status-container">
-      <p>Unable to load recipes. Please check your connection or retry again.</p>
-    </div>
-  );
+  if (isLoading)
+    return (
+      <div className="status-container loading">
+        <div className="spinner"></div>
+        <p>Loading delicious recipes...</p>
+      </div>
+    );
+
+  if (isError)
+    return (
+      <div className="status-container error">
+        <p>⚠️ Unable to load recipes. Please check your connection.</p>
+      </div>
+    );
 
   const meals = data?.meals ?? [];
-  const featuredRecipes = meals.slice(0, 4);
+  const featuredMeals = meals.slice(0, 3);
 
-  const filteredMeals = meals.filter(meal =>
+  const filteredMeals = meals.filter((meal) =>
     meal.strMeal.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -38,50 +41,122 @@ const HomePage = () => {
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
-    setCurrentPage(1); 
+    setCurrentPage(1);
+  };
+
+  const handleCardClick = (mealId) => {
+    navigate(`/meal/${mealId}`);
   };
 
   return (
-    <div className="main-container">
-      {/* Featured Circles Section */}
-      <div className="featured-section">
-        <div className="featured-grid">
-          {featuredRecipes.map(meal => (
-            <div key={`featured-${meal.idMeal}`} className="featured-card" onClick={() => navigate(`/meal/${meal.idMeal}`)}>
-              <img src={meal.strMealThumb} alt={meal.strMeal} />
-              <p className="featured-name">{meal.strMeal}</p> 
+    <div className="homepage">
+      {/* Hero Section */}
+      <section className="hero-section">
+        <div className="hero-content">
+          <h1 className="hero-title">Discover Delicious Recipes</h1>
+          <p className="hero-subtitle">Explore amazing seafood recipes from around the world</p>
+          <div className="hero-search">
+            <input
+              type="text"
+              placeholder="Search for a recipe..."
+              value={searchQuery}
+              onChange={handleSearch}
+              className="hero-search-input"
+            />
+            <button className="hero-search-btn">🔍</button>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Section */}
+      {featuredMeals.length > 0 && (
+        <section className="featured-section" id="featured">
+          <div className="section-header">
+            <h2>Featured Recipes</h2>
+            <p>Check out our handpicked selection</p>
+          </div>
+          <div className="featured-grid">
+            {featuredMeals.map((meal) => (
+              <div
+                key={`featured-${meal.idMeal}`}
+                className="featured-card"
+                onClick={() => handleCardClick(meal.idMeal)}
+              >
+                <div className="featured-image-wrapper">
+                  <img src={meal.strMealThumb} alt={meal.strMeal} />
+                  <div className="featured-overlay">
+                    <button className="featured-btn">View Recipe</button>
+                  </div>
+                </div>
+                <h3>{meal.strMeal}</h3>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* All Recipes Section */}
+      <section className="recipes-section" id="recipes">
+        <div className="section-header">
+          <h2>All Recipes</h2>
+          <p>Showing {paginatedMeals.length} of {filteredMeals.length} recipes</p>
+        </div>
+
+        {/* Recipe Grid */}
+        <div className="recipes-grid">
+          {paginatedMeals.length > 0 ? (
+            paginatedMeals.map((meal) => (
+              <div
+                key={meal.idMeal}
+                className="recipe-card"
+                onClick={() => handleCardClick(meal.idMeal)}
+              >
+                <div className="recipe-image">
+                  <img src={meal.strMealThumb} alt={meal.strMeal} />
+                  <div className="recipe-overlay">
+                    <button className="recipe-btn">View Details</button>
+                  </div>
+                </div>
+                <div className="recipe-content">
+                  <h3 className="recipe-title">{meal.strMeal}</h3>
+                  <p className="recipe-category">Seafood</p>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="no-results">
+              <p>No recipes found. Try a different search.</p>
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* !! MAIN RECIPE BOX !! */}
-      <div className="recipe-box">
-        <div className="box-header">
-          <input
-            className="search-input"
-            type="text"
-            placeholder="search"
-            value={searchQuery}
-            onChange={handleSearch}
-          />
+          )}
         </div>
 
-        <div className="recipe-grid">
-          {paginatedMeals.map(meal => (
-            <div key={meal.idMeal} className="recipe-card" onClick={() => navigate(`/meal/${meal.idMeal}`)}>
-              <img src={meal.strMealThumb} alt={meal.strMeal} />
-              <p>{meal.strMeal}</p>
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="pagination">
+            <button
+              className="pagination-btn"
+              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              ← Previous
+            </button>
+
+            <div className="pagination-info">
+              <span className="current-page">{currentPage}</span>
+              <span className="divider">/</span>
+              <span className="total-pages">{totalPages}</span>
             </div>
-          ))}
-        </div>
 
-        <div className="pagination-controls">
-          <button onClick={() => setCurrentPage(p => p - 1)} disabled={currentPage === 1}>Previous</button>
-          <span> Page {currentPage} of {totalPages} </span>
-          <button onClick={() => setCurrentPage(p => p + 1)} disabled={currentPage === totalPages}>Next</button>
-        </div>
-      </div>
+            <button
+              className="pagination-btn"
+              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+              disabled={currentPage === totalPages}
+            >
+              Next →
+            </button>
+          </div>
+        )}
+      </section>
     </div>
   );
 };

@@ -5,18 +5,36 @@ import "./pages/HomePage.css";
 function App() {
   return (
     <Router>
-      <header className="header-center">
-        <h1>SEAFOOD RECIPES</h1>
-        <nav className="nav-links">
-          <Link to="/">Home</Link> | <a href="#featured">Featured</a>
-        </nav>
-      </header>
+      <div className="app-wrapper">
+        <header className="navbar">
+          <div className="navbar-container">
+            <Link to="/" className="logo">
+              <span className="logo-icon">🍳</span>
+              <span className="logo-text">RecipeHub</span>
+              
+            </Link>
+            
+            <nav className="nav-menu">
+              {/* <Link to="/" className="nav-link active">Home</Link>
+              <a href="#recipes" className="nav-link">Recipes</a>               */}
+            </nav>
 
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/meal/:id" element={<div>Detail Page</div>} />
-        {/* !!!  MEMBER 4 ADD NA LANG U HERE FOR ROUTING !!! -nics */}
-      </Routes>
+          </div>
+        </header>
+
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/meal/:id" element={<div className="detail-page">Detail Page</div>} />
+          </Routes>
+        </main>
+
+        <footer className="footer">
+          <div className="footer-content">
+            <p>&copy; 2024 RecipeHub. All rights reserved.</p>
+          </div>
+        </footer>
+      </div>
     </Router>
   );
 }
