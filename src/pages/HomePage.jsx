@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useGetSeafoodListQuery } from "../store/apiSlice";
 import { useNavigate } from "react-router-dom";
 import "./HomePage.css";
-import "./DetailPage.jsx";
 
 const ITEMS_PER_PAGE = 15;
 
@@ -121,6 +120,7 @@ const HomePage = () => {
                 </div>
                 <div className="recipe-content">
                   <h3 className="recipe-title">{meal.strMeal}</h3>
+                  <p className="recipe-category">Seafood</p>
                 </div>
               </div>
             ))

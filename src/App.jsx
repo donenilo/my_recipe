@@ -26,7 +26,7 @@ function App() {
         <main className="main-content">
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/meal/:id" element={<div className="detail-page">Detail Page</div>} />
+            <Route path="/meal/:id" element={<DetailPage />} />
           </Routes>
         </main>
 
