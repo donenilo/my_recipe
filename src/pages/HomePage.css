@@ -4,7 +4,7 @@
 
 .homepage {
   min-height: 100vh;
-  /* background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); */
+  background: linear-gradient(135deg, #e8f4f8 0%, #d4e9f0 100%);
 }
 
 *, *::before, *::after {
@@ -13,7 +13,7 @@
 
 /* ===== HERO SECTION ===== */
 .hero-section {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0066cc 0%, #00a8b5 100%);
   color: white;
   padding: 40px 40px;
   text-align: center;
@@ -129,7 +129,7 @@
 .section-header h2 {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #1a1a1a;
+  color: #003d66;
   margin-bottom: 10px;
 }
 
@@ -216,7 +216,7 @@
 .featured-btn {
   padding: 12px 30px;
   background: white;
-  color: #667eea;
+  color: #0066cc;
   border: none;
   border-radius: 25px;
   cursor: pointer;
@@ -226,7 +226,7 @@
 }
 
 .featured-btn:hover {
-  background: #667eea;
+  background: #0066cc;
   color: white;
   transform: scale(1.05);
 }
@@ -235,7 +235,9 @@
   padding: 20px 15px;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #1a1a1a;
+  color: #003d66;
+  justify-self: center;
+  text-align: center;
 }
 
 /* ===== RECIPES SECTION ===== */
@@ -289,7 +291,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(102, 126, 234, 0.85);
+  background: rgba(85, 168, 251, 0.681);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -304,7 +306,7 @@
 .recipe-btn {
   padding: 10px 25px;
   background: white;
-  color: #667eea;
+  color: #0066cc;
   border: none;
   border-radius: 20px;
   cursor: pointer;
@@ -315,28 +317,25 @@
 }
 
 .recipe-btn:hover {
-  background: #667eea;
+  background: #5da4ebdf;
   color: white;
   transform: scale(1.05);
 }
 
 .recipe-content {
-  padding: 20px;
+  padding: 10px;
 }
 
 .recipe-title {
   font-size: 1.05rem;
   font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 8px;
+  color: #003d66;
+  margin-bottom: 4px;
   line-height: 1.4;
+  justify-self: center;
+  text-align: center;
 }
 
-.recipe-category {
-  font-size: 0.85rem;
-  color: #999;
-  font-weight: 500;
-}
 
 /* ===== NO RESULTS ===== */
 .no-results {
@@ -364,8 +363,8 @@
 .pagination-btn {
   padding: 12px 25px;
   background: white;
-  color: #667eea;
-  border: 2px solid #667eea;
+  color: #0066cc;
+  border: 2px solid #0066cc;
   border-radius: 25px;
   cursor: pointer;
   font-weight: 600;
@@ -388,7 +387,7 @@
 
 .pagination-info {
   font-weight: 600;
-  color: #667eea;
+  color: #0066cc;
   font-size: 1.1rem;
 }
 

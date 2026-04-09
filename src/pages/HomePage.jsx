@@ -120,7 +120,6 @@ const HomePage = () => {
                 </div>
                 <div className="recipe-content">
                   <h3 className="recipe-title">{meal.strMeal}</h3>
-                  <p className="recipe-category">Seafood</p>
                 </div>
               </div>
             ))
