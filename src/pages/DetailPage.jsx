@@ -59,9 +59,14 @@ const DetailPage = () => {
   }
 
   const instructionSteps = (meal.strInstructions || "")
-    .split(/\r?\n|\.\s+/)
-    .map((step) => step.trim())
-    .filter(Boolean);
+    .split(/\r?\n/)
+    .map((step) =>
+      step
+        .replace(/▢/g, "")  // remove checkbox squares
+        .replace(/^(STEP|Step)\s*\d+\.?/i, "")  // remove every iteration of "step/STEP [i]"
+        .trim()
+    )
+    .filter((step) => step.length > 0); // drops empty lines
 
   const prepMinutes = Math.max(10, ingredients.length * 2);
   const cookMinutes = Math.max(20, Math.round(instructionSteps.length * 3));
@@ -133,7 +138,6 @@ const DetailPage = () => {
             <div className="section-header-detail">
               <h2>Directions</h2>
             </div>
-            {/* Paayos po  */}
             <ul className="instructions-content">
               {instructionSteps.map((step, i) => (
                 <li key={i} className="instruction-step">

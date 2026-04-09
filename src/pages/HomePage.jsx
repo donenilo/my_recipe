@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useGetSeafoodListQuery } from "../store/apiSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import "./HomePage.css";
 
 const ITEMS_PER_PAGE = 15;
@@ -9,7 +9,8 @@ const HomePage = () => {
   const { data, isLoading, isError } = useGetSeafoodListQuery();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = parseInt(searchParams.get("page") || "1", 10);
 
   if (isLoading)
     return (
@@ -41,7 +42,7 @@ const HomePage = () => {
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
-    setCurrentPage(1);
+    setSearchParams({ page: 1 });
   };
 
   const handleCardClick = (mealId) => {
@@ -73,7 +74,6 @@ const HomePage = () => {
         <section className="featured-section" id="featured">
           <div className="section-header">
             <h2>Featured Recipes</h2>
-            {/* <p>Check out our handpicked selection</p> */}
           </div>
           <div className="featured-grid">
             {featuredMeals.map((meal) => (
@@ -115,7 +115,6 @@ const HomePage = () => {
                   <img src={meal.strMealThumb} alt={meal.strMeal} />
                   <div className="recipe-overlay">
                     <button className="recipe-btn">View Details</button>
-                    
                   </div>
                 </div>
                 <div className="recipe-content">
@@ -135,7 +134,7 @@ const HomePage = () => {
           <div className="pagination">
             <button
               className="pagination-btn"
-              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+              onClick={() => setSearchParams({ page: Math.max(currentPage - 1, 1) })}
               disabled={currentPage === 1}
             >
               ← Previous
@@ -149,7 +148,7 @@ const HomePage = () => {
 
             <button
               className="pagination-btn"
-              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+              onClick={() => setSearchParams({ page: Math.min(currentPage + 1, totalPages) })}
               disabled={currentPage === totalPages}
             >
               Next →
