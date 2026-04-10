@@ -332,20 +332,42 @@
 /* ===== PAGINATION ===== */
 .pagination {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   margin-top: 2rem;
-  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+.pagination-pages {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  max-width: min(520px, calc(100vw - 140px));
+  min-width: 40px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  padding-inline: 2px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.pagination-pages::-webkit-scrollbar {
+  display: none;
 }
  
 .pagination-btn {
   background: white;
   border: none;
   color: #aaa;
-  font-size: 1.2rem;
-  width: 38px;
-  height: 38px;
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  min-width: 42px;
+  min-height: 42px;
+  width: clamp(42px, 4.4vw, 48px);
+  height: clamp(42px, 4.4vw, 48px);
   border-radius: 6px;
   cursor: pointer;
   display: flex;
@@ -353,6 +375,7 @@
   justify-content: center;
   transition: color 0.2s;
   font-family: 'Poppins', sans-serif;
+  flex: 0 0 auto;
 }
  
 .pagination-btn:not(:disabled):hover {
@@ -368,9 +391,11 @@
   background: white;
   border: none;
   color: #003d66;
-  font-size: 0.95rem;
-  width: 38px;
-  height: 38px;
+  font-size: clamp(0.95rem, 1.7vw, 1.05rem);
+  min-width: 42px;
+  min-height: 42px;
+  width: clamp(42px, 4.4vw, 48px);
+  height: clamp(42px, 4.4vw, 48px);
   border-radius: 6px;
   cursor: pointer;
   font-family: 'Poppins', sans-serif;
@@ -379,6 +404,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 0 0 auto;
+  scroll-snap-align: center;
 }
  
 .pagination-page-btn:hover {
@@ -394,13 +421,25 @@
  
 .pagination-ellipsis {
   color: #aaa;
-  font-size: 0.95rem;
-  width: 38px;
-  height: 38px;
+  font-size: clamp(0.95rem, 1.7vw, 1.05rem);
+  min-width: 42px;
+  min-height: 42px;
+  width: clamp(42px, 4.4vw, 48px);
+  height: clamp(42px, 4.4vw, 48px);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Poppins', sans-serif;
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+}
+
+.pagination-swipe-hint {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #4d7086;
+  font-weight: 500;
 }
  
 /* ===== STATUS MESSAGES ===== */
@@ -508,14 +547,13 @@
   }
  
   .pagination {
-    gap: 4px;
+    gap: 6px;
   }
- 
-  .pagination-page-btn,
-  .pagination-btn {
-    width: 34px;
-    height: 34px;
-    font-size: 0.85rem;
+
+  .pagination-pages {
+    justify-content: flex-start;
+    max-width: calc(100vw - 128px);
+    padding-inline: 4px;
   }
 }
  
@@ -538,12 +576,5 @@
  
   .recipe-title {
     font-size: 0.95rem;
-  }
- 
-  .pagination-page-btn,
-  .pagination-btn {
-    width: 30px;
-    height: 30px;
-    font-size: 0.8rem;
   }
 }
