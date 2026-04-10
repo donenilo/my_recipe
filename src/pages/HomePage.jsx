@@ -38,10 +38,13 @@ const HomePage = () => {
   );
 
   const totalPages = Math.ceil(filteredMeals.length / ITEMS_PER_PAGE) || 1;
+  const safeCurrentPage = Math.min(Math.max(currentPage, 1), totalPages);
   const paginatedMeals = filteredMeals.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+    (safeCurrentPage - 1) * ITEMS_PER_PAGE,
+    safeCurrentPage * ITEMS_PER_PAGE
   );
+  const startItem = filteredMeals.length === 0 ? 0 : (safeCurrentPage - 1) * ITEMS_PER_PAGE + 1;
+  const endItem = filteredMeals.length === 0 ? 0 : Math.min(safeCurrentPage * ITEMS_PER_PAGE, filteredMeals.length);
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -101,7 +104,11 @@ const HomePage = () => {
       <section className="recipes-section" id="recipes">
         <div className="section-header">
           <h2>All Recipes</h2>
-          <p>Showing {paginatedMeals.length} of {filteredMeals.length} recipes</p>
+          <p>
+            {filteredMeals.length > 0
+              ? `Showing ${startItem}-${endItem} of ${filteredMeals.length} recipes`
+              : "Showing 0 of 0 recipes"}
+          </p>
         </div>
 
         {/* Recipe Grid */}
@@ -136,22 +143,22 @@ const HomePage = () => {
           <div className="pagination">
             <button
               className="pagination-btn"
-              onClick={() => setSearchParams({ page: Math.max(currentPage - 1, 1) })}
-              disabled={currentPage === 1}
+              onClick={() => setSearchParams({ page: Math.max(safeCurrentPage - 1, 1) })}
+              disabled={safeCurrentPage === 1}
             >
               ← Previous
             </button>
 
             <div className="pagination-info">
-              <span className="current-page">{currentPage}</span>
+              <span className="current-page">{safeCurrentPage}</span>
               <span className="divider">/</span>
               <span className="total-pages">{totalPages}</span>
             </div>
 
             <button
               className="pagination-btn"
-              onClick={() => setSearchParams({ page: Math.min(currentPage + 1, totalPages) })}
-              disabled={currentPage === totalPages}
+              onClick={() => setSearchParams({ page: Math.min(safeCurrentPage + 1, totalPages) })}
+              disabled={safeCurrentPage === totalPages}
             >
               Next →
             </button>
