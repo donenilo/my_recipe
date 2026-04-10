@@ -146,21 +146,52 @@ const HomePage = () => {
               onClick={() => setSearchParams({ page: Math.max(safeCurrentPage - 1, 1) })}
               disabled={safeCurrentPage === 1}
             >
-              ← Previous
+              «
             </button>
 
-            <div className="pagination-info">
-              <span className="current-page">{safeCurrentPage}</span>
-              <span className="divider">/</span>
-              <span className="total-pages">{totalPages}</span>
-            </div>
+            {(() => {
+              const pages = [];
+              const delta = 2;
+              const left = safeCurrentPage - delta;
+              const right = safeCurrentPage + delta;
+
+              for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= left && i <= right)) {
+                  pages.push(i);
+                }
+              }
+
+              const result = [];
+              let prev = null;
+              for (const page of pages) {
+                if (prev !== null && page - prev > 1) {
+                  result.push("...");
+                }
+                result.push(page);
+                prev = page;
+              }
+
+              return result.map((item, idx) =>
+                item === "..." ? (
+                  <span key={`ellipsis-${idx}`} className="pagination-ellipsis">...</span>
+                ) : (
+                  <button
+                    key={item}
+                    className={`pagination-page-btn ${safeCurrentPage === item ? "active" : ""}`}
+                    onClick={() => setSearchParams({ page: item })}
+                  >
+                    {item}
+                  </button>
+                )
+              );
+            })()}
 
             <button
               className="pagination-btn"
               onClick={() => setSearchParams({ page: Math.min(safeCurrentPage + 1, totalPages) })}
               disabled={safeCurrentPage === totalPages}
             >
-              Next →
+              »
             </button>
           </div>
         )}
