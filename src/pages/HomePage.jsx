@@ -37,22 +37,6 @@ const HomePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const paginationPagesRef = useRef(null);
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
- 
-  if (isLoading)
-    return (
-      <div className="status-container loading">
-        <div className="spinner"></div>
-        <p>Loading delicious recipes...</p>
-      </div>
-    );
- 
-  if (isError)
-    return (
-      <div className="status-container error">
-        <p>⚠️ Unable to load recipes. Please check your connection.</p>
-      </div>
-    );
- 
   const meals = data?.meals ?? [];
   const normalizedSearchQuery = searchQuery.trim().toLowerCase();
   const hasSearchQuery = normalizedSearchQuery.length > 0;
@@ -111,6 +95,21 @@ const HomePage = () => {
       }
     };
   }, [totalPages, safeCurrentPage]);
+
+  if (isLoading)
+    return (
+      <div className="status-container loading">
+        <div className="spinner"></div>
+        <p>Loading delicious recipes...</p>
+      </div>
+    );
+
+  if (isError)
+    return (
+      <div className="status-container error">
+        <p>⚠️ Unable to load recipes. Please check your connection.</p>
+      </div>
+    );
  
   return (
     <div className="homepage">
