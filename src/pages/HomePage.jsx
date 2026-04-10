@@ -28,10 +28,13 @@ const HomePage = () => {
     );
 
   const meals = data?.meals ?? [];
+  const normalizedSearchQuery = searchQuery.trim().toLowerCase();
+  const hasSearchQuery = normalizedSearchQuery.length > 0;
+
   const featuredMeals = meals.slice(0, 3);
 
   const filteredMeals = meals.filter((meal) =>
-    meal.strMeal.toLowerCase().includes(searchQuery.toLowerCase())
+    meal.strMeal.toLowerCase().includes(normalizedSearchQuery)
   );
 
   const totalPages = Math.ceil(filteredMeals.length / ITEMS_PER_PAGE) || 1;
@@ -64,13 +67,12 @@ const HomePage = () => {
               onChange={handleSearch}
               className="hero-search-input"
             />
-            <button className="hero-search-btn">🔍</button>
           </div>
         </div>
       </section>
 
       {/* Featured Section */}
-      {featuredMeals.length > 0 && (
+      {!hasSearchQuery && featuredMeals.length > 0 && (
         <section className="featured-section" id="featured">
           <div className="section-header">
             <h2>Featured Recipes</h2>
