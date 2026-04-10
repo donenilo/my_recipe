@@ -1,47 +1,32 @@
-import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useGetMealDetailsQuery } from "../store/apiSlice";
 import "./DetailPage.css";
 
 const DetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [meal, setMeal] = useState(null);
-  const [error, setError] = useState("");
 
-  useEffect(() => {
-    fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.meals && data.meals[0]) {
-          setMeal(data.meals[0]);
-          return;
-        }
-        setError("Recipe not found.");
-      })
-      .catch(() => {
-        setError("Unable to load this recipe right now.");
-      });
-  }, [id]);
+  const { data, isLoading, isError } = useGetMealDetailsQuery(id);
+  const meal = data?.meals?.[0] ?? null;
 
-  if (error)
-    return (
-      <div className="detail-page-error">
-        <div className="error-container">
-          <p className="error-icon">⚠️</p>
-          <p className="error-message">{error}</p>
-          <button className="error-btn" onClick={() => navigate(-1)}>
-            Go Back
-          </button>
-        </div>
-      </div>
-    );
-
-  if (!meal)
+  if (isLoading)
     return (
       <div className="detail-page-loading">
         <div className="spinner-container">
           <div className="spinner"></div>
           <p>Loading recipe details...</p>
+        </div>
+      </div>
+    );
+
+  if (isError || !meal)
+    return (
+      <div className="detail-page-error">
+        <div className="error-container">
+          <p className="error-message">Recipe not found.</p>
+          <button className="error-btn" onClick={() => navigate(-1)}>
+            Go Back
+          </button>
         </div>
       </div>
     );
@@ -62,11 +47,11 @@ const DetailPage = () => {
     .split(/\r?\n/)
     .map((step) =>
       step
-        .replace(/▢/g, "")  // remove checkbox squares
-        .replace(/^(STEP|Step)\s*\d+\.?/i, "")  // remove every iteration of "step/STEP [i]"
+        .replace(/▢/g, "")
+        .replace(/^(STEP|Step)\s*\d+\.?/i, "")
         .trim()
     )
-    .filter((step) => step.length > 0); // drops empty lines
+    .filter((step) => step.length > 0);
 
   const prepMinutes = Math.max(10, ingredients.length * 2);
   const cookMinutes = Math.max(20, Math.round(instructionSteps.length * 3));
