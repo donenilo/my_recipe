@@ -2,16 +2,16 @@ import { useState } from "react";
 import { useGetSeafoodListQuery } from "../store/apiSlice";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import "./HomePage.css";
-
+ 
 const ITEMS_PER_PAGE = 15;
-
+ 
 const HomePage = () => {
   const { data, isLoading, isError } = useGetSeafoodListQuery();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
-
+ 
   if (isLoading)
     return (
       <div className="status-container loading">
@@ -19,24 +19,24 @@ const HomePage = () => {
         <p>Loading delicious recipes...</p>
       </div>
     );
-
+ 
   if (isError)
     return (
       <div className="status-container error">
         <p>⚠️ Unable to load recipes. Please check your connection.</p>
       </div>
     );
-
+ 
   const meals = data?.meals ?? [];
   const normalizedSearchQuery = searchQuery.trim().toLowerCase();
   const hasSearchQuery = normalizedSearchQuery.length > 0;
-
+ 
   const featuredMeals = meals.slice(0, 3);
-
+ 
   const filteredMeals = meals.filter((meal) =>
     meal.strMeal.toLowerCase().includes(normalizedSearchQuery)
   );
-
+ 
   const totalPages = Math.ceil(filteredMeals.length / ITEMS_PER_PAGE) || 1;
   const safeCurrentPage = Math.min(Math.max(currentPage, 1), totalPages);
   const paginatedMeals = filteredMeals.slice(
@@ -45,16 +45,16 @@ const HomePage = () => {
   );
   const startItem = filteredMeals.length === 0 ? 0 : (safeCurrentPage - 1) * ITEMS_PER_PAGE + 1 ;
   const endItem = filteredMeals.length === 0 ? 0 : Math.min(safeCurrentPage * ITEMS_PER_PAGE, filteredMeals.length);
-
+ 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
     setSearchParams({ page: 1 });
   };
-
+ 
   const handleCardClick = (mealId) => {
     navigate(`/meal/${mealId}`);
   };
-
+ 
   return (
     <div className="homepage">
       {/* Hero Section */}
@@ -73,7 +73,7 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-
+ 
       {/* Featured Section */}
       {!hasSearchQuery && featuredMeals.length > 0 && (
         <section className="featured-section" id="featured">
@@ -99,7 +99,7 @@ const HomePage = () => {
           </div>
         </section>
       )}
-
+ 
       {/* All Recipes Section */}
       <section className="recipes-section" id="recipes">
         <div className="section-header">
@@ -110,7 +110,7 @@ const HomePage = () => {
             :"Showing 0 of 0 recipes"}
             </p>
         </div>
-
+ 
         {/* Recipe Grid */}
         <div className="recipes-grid">
           {paginatedMeals.length > 0 ? (
@@ -137,7 +137,7 @@ const HomePage = () => {
             </div>
           )}
         </div>
-
+ 
         {/* Pagination */}
         {totalPages > 1 && (
           <div className="pagination">
@@ -148,19 +148,19 @@ const HomePage = () => {
             >
               «
             </button>
-
+ 
             {(() => {
               const pages = [];
-              const delta = 2;
+              const delta = 4;
               const left = safeCurrentPage - delta;
               const right = safeCurrentPage + delta;
-
+ 
               for (let i = 1; i <= totalPages; i++) {
                 if (i === 1 || i === totalPages || (i >= left && i <= right)) {
                   pages.push(i);
                 }
               }
-
+ 
               const result = [];
               let prev = null;
               for (const page of pages) {
@@ -170,7 +170,7 @@ const HomePage = () => {
                 result.push(page);
                 prev = page;
               }
-
+ 
               return result.map((item, idx) =>
                 item === "..." ? (
                   <span key={`ellipsis-${idx}`} className="pagination-ellipsis">...</span>
@@ -185,7 +185,7 @@ const HomePage = () => {
                 )
               );
             })()}
-
+ 
             <button
               className="pagination-btn"
               onClick={() => setSearchParams({ page: Math.min(safeCurrentPage + 1, totalPages) })}
@@ -199,5 +199,5 @@ const HomePage = () => {
     </div>
   );
 };
-
+ 
 export default HomePage;
